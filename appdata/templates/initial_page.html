@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% block style %}
+<style>
+    #tab-style {
+      font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    #tab-style td, #tab-style th {
+      border: 1px solid #ddd;
+      padding: 8px;
+    }
+    
+    #tab-style tr:nth-child(even){background-color: #f2f2f2;}
+    
+    #tab-style tr:hover {background-color: #ddd;}
+    
+    #tab-style th {
+      padding-top: 12px;
+      padding-bottom: 12px;
+      text-align: left;
+      background-color: #4CAF50;
+      color: white;
+    }
+</style>
+{% endblock style %}
+{% block content %}
+   
+    <div class="container-fluid">
+        <form id="initial-form">
+            <div class="row">
+                {% csrf_token %}
+                {% for field in form %}
+                <div class="form-group col-4">
+                    <label class="col-12">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+                <input type="submit" class="btn btn-primary" value="Continue" />
+            </div>
+        <form>
+    </div>
+    <hr />
+
+    <div class="container-fluid">
+        <table class="table table-striped table-sm" id="dis-table">
+            <thead>
+                <tr>
+                    <th>Form ID</th>
+                    <th>Drop Down - 1</th>
+                    <th>Drop Down - 2</th>
+                    <th>Check Box</th>
+                    <th>Integer Box</th>
+                    <th>Text Box</th>
+                    <th>DOB</th>
+                    <th>New Check Box 1</th>
+                    <th>New Check Box 2</th>
+                    <th>New Check Box A</th>
+                    <th>New Check Box B</th>
+                    <th>New Check Box C</th>
+                    <th>New Check Box D</th>
+                    <th>Integer Box A</th>
+                    <th>Integer Box B</th>
+                    <th>Integer Box C</th>
+                    <th>Integer Box D</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for friend in friends %}
+            <tr>
+                <td>{{friend.form_id}}</td>
+                <td>{{friend.dropdown1}}</td>
+                <td>{{friend.dropdown2}}</td>
+                <td>{{friend.checkbox1}}</td>
+                <td>{{friend.Integerbox}}</td>
+                <td>{{friend.textbox}}</td>
+                <td>{{friend.dob | date:"Y-m-d"}}</td>
+                <td>{{friend.newcheckbox1}}</td>
+                <td>{{friend.newcheckbox2}}</td>
+                <td>{{friend.newcheckboxA}}</td>
+                <td>{{friend.newcheckboxB}}</td>
+                <td>{{friend.newcheckboxC}}</td>
+                <td>{{friend.newcheckboxD}}</td>
+                <td>{{friend.IntegertextA}}</td>
+                <td>{{friend.IntegertextB}}</td>
+                <td>{{friend.IntegertextC}}</td>
+                <td>{{friend.IntegertextD}}</td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    
+    </div>
+{% endblock content %}
+
+{% block javascript %}
+<script>
+    /*
+        On submiting the form, send the POST ajax
+        request to server and after successfull submission
+        display the object.
+    */
+    $("#initial-form").submit(function (e) {
+        // preventing from page reload and default actions
+        e.preventDefault();
+        // serialize the data for sending the form data.
+        var serializedData = $(this).serialize();
+        // make POST ajax call
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'appendData' %}",
+            data: serializedData,
+            success: function (response) {
+                // on successfull creating object
+                // 1. clear the form.
+                $("#initial-form").trigger('reset');
+                // 2. focus to nickname input 
+                $("#id_dropdown").focus();
+
+                // display the newly friend to table.
+                var instance = JSON.parse(response["instance"]);
+                var fields = instance[0]["fields"];
+                $("#dis-table tbody").prepend(
+                    `<tr>
+                    <td>${fields["form_id"]||""}</td>
+                    <td>${fields["dropdown1"]||""}</td>
+                    <td>${fields["dropdown2"]||""}</td>
+                    <td>${fields["checkbox1"]||""}</td>
+                    <td>${fields["Integerbox"]||""}</td>
+                    <td>${fields["textbox"]||""}</td>
+                    <td>${fields["dob"]||""}</td>
+                    <td>${fields["newcheckbox1"]||""}</td>
+                    <td>${fields["newcheckbox2"]||""}</td>
+                    <td>${fields["newcheckboxA"]||""}</td>
+                    <td>${fields["newcheckboxB"]||""}</td>
+                    <td>${fields["newcheckboxC"]||""}</td>
+                    <td>${fields["newcheckboxD"]||""}</td>
+                    <td>${fields["IntegertextA"]||""}</td>
+                    <td>${fields["IntegertextB"]||""}</td>
+                    <td>${fields["IntegertextC"]||""}</td>
+                    <td>${fields["IntegertextD"]||""}</td>
+
+                    </tr>`
+                )
+            },
+            error: function (response) {
+                // alert the error if any error occured
+                alert(response["responseJSON"]["error"]);
+            }
+        })
+    })
+    $("#id_form_id").focusout(function (e) {
+        e.preventDefault();
+        // get the nickname
+        var form_id = $(this).val();
+        // GET AJAX request
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'validate_formid' %}",
+            data: {"form_id": fom_id},
+            success: function (response) {
+                // if not valid user, alert the user
+                if(!response["valid"]){
+                    alert("You cannot create a friend with same nick name");
+                    var formid = $("#id_form_id");
+                    formid.val("")
+                    formid.focus()
+                }
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+    })
+</script>
+{% endblock javascript %}

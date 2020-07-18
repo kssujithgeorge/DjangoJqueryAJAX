@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+
+
+
+{% block content %}
+   
+    <div class="container pt-10 col-10" style="margin-top: 40px;" id="main-container">
+        <form method="POST" id="initial-form" class="form-data-main">
+            <h3 style="text-align: center;
+                   text-decoration: underline;">Django jQuery-Ajax Form</h3>
+
+            <div class="row">
+                {% csrf_token %}
+<!--                <div class="container-form" id="dis-container-form">-->
+                   {% for field in form %}
+                <div class="form-group" style="margin-top: 20px">
+                    <label class="col-12">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+            </div>
+
+            <input type="submit" id="continue" class="btn btn-primary" value="Continue" style="margin-left: 30rem;"/>
+        <form>
+        <input type="button" id="fin-submit" class="btn btn-secondary" value="SUBMIT" style="    margin-top: 30px;
+    display: flex; margin-bottom: 30px;
+    border-radius: 15%;
+    border-color: cornflowerblue;
+    font-size: medium;" />
+    </div>
+    <hr />
+
+    <div class="display-container pt-4 col-10" style="display: none; margin-left: 10px; margin-right: 10px;" id="dis-container">
+        <h3 style="text-align: center;
+                   text-decoration: underline;">APPEND DATA DETAILS</h3>
+        <table class="table table-striped table-sm" id="dis_table">
+            <thead>
+                <tr>
+                    <th>Form ID</th>
+                    <th>Drop Down - 1</th>
+                    <th>Drop Down - 2</th>
+                    <th>Check Box</th>
+                    <th>Integer Box</th>
+                    <th>Text Box</th>
+                    <th>DOB</th>
+                    <th>New Check Box 1</th>
+                    <th>New Check Box 2</th>
+                    <th>New Check Box A</th>
+                    <th>New Check Box B</th>
+                    <th>New Check Box C</th>
+                    <th>New Check Box D</th>
+                    <th>Integer Box A</th>
+                    <th>Integer Box B</th>
+                    <th>Integer Box C</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for friend in friends %}
+            <tr>
+                <td>{{friend.form_id}}</td>
+                <td>{{friend.drop_down_1}}</td>
+                <td>{{friend.drop_down_2}}</td>
+                <td>{{friend.check_box_1}}</td>
+                <td>{{friend.Integer_box}}</td>
+                <td>{{friend.text_box}}</td>
+                <td>{{friend.dob | date:"Y-m-d"}}</td>
+                <td>{{friend.new_check_box_1}}</td>
+                <td>{{friend.new_check_box_2}}</td>
+                <td>{{friend.new_check_box_A}}</td>
+                <td>{{friend.new_check_box_B}}</td>
+                <td>{{friend.new_check_box_C}}</td>
+                <td>{{friend.new_check_box_D}}</td>
+                <td>{{friend.integerbox_A}}</td>
+                <td>{{friend.integerbox_B}}</td>
+                <td>{{friend.integerbox_C}}</td>
+                <td>{{friend.integerbox_D}}</td>
+                <td><input id='delete' type="button" value="DELETE" style='font-size: x-small;font-weight: bold;text-decoration: underline';/></td>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" id="confirm" class="btn btn-primary" value="CONFIRM" style="margin-left: 30rem;"/>
+<!--        <button type="submit" id="confirm" class="btn btn-primary" style="margin-top: 30px;">CONFIRM</button>-->
+    </div>
+{% endblock content %}
+
+

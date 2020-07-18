@@ -1,0 +1,120 @@
+{% load crispy_forms_filters %}
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'template.css' %}">
+    
+    <title>Ajax Django Form</title>
+    <style>
+        #tab-style {
+          font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+        }
+        
+        #tab-style td, #tab-style th {
+          border: 1px solid #ddd;
+          padding: 8px;
+        }
+        
+        #tab-style tr:nth-child(even){background-color: #f2f2f2;}
+        
+        #tab-style tr:hover {background-color: #ddd;}
+        
+        #tab-style th {
+          padding-top: 12px;
+          padding-bottom: 12px;
+          text-align: left;
+          background-color: #4CAF50;
+          color: white;
+        }
+        </style>
+</head>
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+            
+        <a class="navbar-brand " href="#">Navbar</a> 
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+            
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="test.html">View</a>
+            </li>
+            </ul>
+        </div>
+
+    </nav>
+
+    <div class="container pt-4 col-3" style="margin-bottom: 40px;" id="main-container">
+                                       
+        <form method="POST" id="post-form" class="form-data-main">{% csrf_token %}     
+            <h3 style="text-align: center;
+                   text-decoration: underline;">AJAX DJANGO FORM</h3>
+            <div class="container-form" id="dis-container-form">           
+                {{ form|crispy }}
+            </div>
+            <input type="button" id="continue" class="btn btn-primary" value="Continue" />
+        </form>
+        <input type="submit" id="fin-submit" class="btn btn-secondary" value="SUBMIT" style="margin-top: 10px;" />
+        
+    </div> <!-- /.container -->
+
+    <div class="display-container pt-4 col-12" style="display: none; margin-left: 10px; margin-right: 10px;" id="dis-container">
+        <h3 style="text-align: center;
+                   text-decoration: underline;">APPEND DATA DETAILS</h3>  
+    <form action="" method="POST" id="dis-form"> {% csrf_token %}
+        <table id="tab-style" style="margin-top: 40px;">
+            <thead>
+                <tr>
+                    <th>Drop Down-1</th>
+                    <th>Drop Down-2</th>
+                    <th>Check Box</th>
+                    <th>Interger Text</th>
+                    <th>Text Box</th>
+                    <th>New Check-1</th>
+                    <th>New Check-1</th>
+                    <th>New Check-A</th>
+                    <th>New Check-B</th>
+                    <th>New Check-C</th>
+                    <th>New Check-D</th>
+                    <th>Interger Text-A</th>
+                    <th>Interger Text-B</th>
+                    <th>Interger Text-C</th>
+                    <th>Interger Text-D</th>
+
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+        <button type="submit" id="confirm" class="btn btn-primary" style="margin-top: 30px;">CONFIRM</button>
+
+    </form>
+    </div>
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="static/scripts/main.js"></script> -->
+
+</body>
+</html>
